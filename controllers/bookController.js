@@ -1,33 +1,15 @@
-import * as bookRepository from "../repository/bookRepository.js";
+import Book from "../models/bookModel.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
-import { randomUUID } from "crypto";
-
-const checkBody = (req, res, next) => {
-  const { title, author } = req.body;
-  if (!title || !author) {
-    return next(new AppError("Title and author are required", 400));
-  }
-  next();
-};
-
-const checkID = async (req, res, next, val) => {
-  try {
-    const id = val;
-    const books = await bookRepository.readData();
-    const book = books.find((book) => book.id === id);
-    if (!book) {
-      return next(new AppError("Book not found", 404));
-    }
-    req.book = book;
-    next();
-  } catch (error) {
-    return next(new AppError(error.message, 404));
-  }
-};
+import APIFeatures from "../utils/apiFeatures.js";
 
 const getAllBooks = catchAsync(async (req, res, next) => {
-  const books = await bookRepository.readData();
+  const feature = new APIFeatures(Book.find(), req.query)
+    .filter()
+    .sort()
+    .fieldLimiting()
+    .pagination();
+  const books = await feature.query;
   res.status(200).json({
     status: "success",
     result: books.length,
@@ -37,19 +19,21 @@ const getAllBooks = catchAsync(async (req, res, next) => {
   });
 });
 
-const getBook = (req, res, next) => {
+const getBook = catchAsync(async (req, res, next) => {
+  const book = await Book.findById(req.params.id);
+  if (!book) {
+    return next(new AppError("No book found with that ID", 404));
+  }
   res.status(200).json({
     status: "success",
     data: {
-      book: req.book,
+      book,
     },
   });
-};
+});
 
 const createBook = catchAsync(async (req, res, next) => {
-  const id = randomUUID();
-  const newBook = { ...req.body, id };
-  await bookRepository.createOne(newBook);
+  const newBook = await Book.create(req.body);
   res.status(201).json({
     status: "success",
     data: {
@@ -59,7 +43,13 @@ const createBook = catchAsync(async (req, res, next) => {
 });
 
 const updateBook = catchAsync(async (req, res, next) => {
-  const newBook = await bookRepository.updateOne(req.book, req.body);
+  const newBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+    returnDocument: "after",
+    runValidators: true,
+  });
+  if (!newBook) {
+    return next(new AppError("No book found with that ID", 404));
+  }
   res.status(200).json({
     status: "success",
     data: {
@@ -69,7 +59,10 @@ const updateBook = catchAsync(async (req, res, next) => {
 });
 
 const deleteBook = catchAsync(async (req, res, next) => {
-  await bookRepository.deleteOne(req.book);
+  const book = await Book.findByIdAndDelete(req.params.id);
+  if (!book) {
+    return next(new AppError("No book found with that ID", 404));
+  }
   res.status(204).json({
     status: "success",
     data: {
@@ -78,12 +71,4 @@ const deleteBook = catchAsync(async (req, res, next) => {
   });
 });
 
-export {
-  getAllBooks,
-  getBook,
-  createBook,
-  updateBook,
-  deleteBook,
-  checkID,
-  checkBody,
-};
+export { getAllBooks, getBook, createBook, updateBook, deleteBook };

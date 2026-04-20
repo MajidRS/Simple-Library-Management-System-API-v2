@@ -3,12 +3,10 @@ import * as bookController from "../controllers/bookController.js";
 
 const router = express.Router();
 
-router.param('id', bookController.checkID)
-
 router
   .route("/")
   .get(bookController.getAllBooks)
-  .post(bookController.checkBody, bookController.createBook);
+  .post(bookController.createBook);
 router
   .route("/:id")
   .get(bookController.getBook)

@@ -21,6 +21,36 @@
         <pre id="getBooksResult">Response will appear here...</pre>
       </section>
 
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?year=1960</h2>
+        <p>Filters books by a specific publication year</p>
+        <button onclick="fetchBooksByYear()">Try it</button>
+        <pre id="booksByYearResult">Response will appear here...</pre>
+      </section>
+
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?sort=title</h2>
+        <p>Sorts books in ascending order by title</p>
+        <button onclick="fetchBooksSortedByTitle()">Try it</button>
+        <pre id="booksSortedByTitleResult">Response will appear here...</pre>
+      </section>
+
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?fields="title,author,year'</h2>
+        <p>
+          Retrieve only selected fields (title, author, and year) for each book
+        </p>
+        <button onclick="fetchBooksWithSelectedFields()">Try it</button>
+        <pre id="booksSelectedFieldsResult">Response will appear here...</pre>
+      </section>
+
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?page=1&limit=2</h2>
+        <p>Paginates results by specifying page number and limit per page</p>
+        <button onclick="fetchPaginatedBooks()">Try it</button>
+        <pre id="paginatedBooksResult">Response will appear here...</pre>
+      </section>
+
       <!-- POST Create Book -->
       <section class="endpoint post">
         <h2>POST /api/v1/books</h2>
@@ -73,65 +103,6 @@
       </section>
     </main>
 
-    <script>
-      async function fetchBooks() {
-        const res = await fetch("/api/v1/books");
-        const data = await res.json();
-        document.getElementById("getBooksResult").textContent = JSON.stringify(
-          data,
-          null,
-          2,
-        );
-      }
-
-      async function createBook() {
-        const body = JSON.parse(document.getElementById("postBookBody").value);
-        const res = await fetch("/api/v1/books", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        document.getElementById("postBookResult").textContent = JSON.stringify(
-          data,
-          null,
-          2,
-        );
-      }
-
-      async function getBook() {
-        const id = document.getElementById("getBookId").value;
-        const res = await fetch(`/api/v1/books/${id}`);
-        const data = await res.json();
-        document.getElementById("getBookResult").textContent = JSON.stringify(
-          data,
-          null,
-          2,
-        );
-      }
-
-      async function updateBook() {
-        const id = document.getElementById("updateBookId").value;
-        const body = JSON.parse(
-          document.getElementById("updateBookBody").value,
-        );
-        const res = await fetch(`/api/v1/books/${id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        document.getElementById("updateBookResult").textContent =
-          JSON.stringify(data, null, 2);
-      }
-
-      async function deleteBook() {
-        const id = document.getElementById("deleteBookId").value;
-        const res = await fetch(`/api/v1/books/${id}`, { method: "DELETE" });
-        const data = await res.json();
-        document.getElementById("deleteBookResult").textContent =
-          JSON.stringify(data, null, 2);
-      }
-    </script>
+    <script src="index.js"></script>
   </body>
 </html>
