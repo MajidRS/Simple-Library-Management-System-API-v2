@@ -1,96 +1,121 @@
-async function fetchBooks() {
-  const res = await fetch("/api/v1/books");
-  const data = await res.json();
-  document.getElementById("getBooksResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
+async function fetchData(url, elementId, options = {}) {
+  try {
+    const res = await fetch(url, options);
+    const data = await res.json();
+
+    document.getElementById(elementId).textContent = JSON.stringify(
+      data,
+      null,
+      2,
+    );
+  } catch (err) {
+    document.getElementById(elementId).textContent = err.message;
+  }
+}
+
+/* =========================
+   GET REQUESTS
+========================= */
+
+function fetchBooks() {
+  fetchData("/api/v1/books", "getBooksResult");
+}
+
+function fetchBooksByYear() {
+  fetchData("/api/v1/books?year=1960", "booksByYearResult");
+}
+
+/* =========================
+  OPERATORS (FILTERS)
+========================= */
+
+// IN
+function fetchIn() {
+  fetchData("/api/v1/books?year[in]=1960,2003", "booksYearInResult");
+}
+
+// GT
+function fetchGT() {
+  fetchData("/api/v1/books?year[gt]=1950", "booksYearGTResult");
+}
+
+// GTE
+function fetchGTE() {
+  fetchData("/api/v1/books?year[gte]=2000", "booksYearGTEResult");
+}
+
+// LT
+function fetchLT() {
+  fetchData("/api/v1/books?year[lt]=1900", "booksYearLTResult");
+}
+
+// LTE
+function fetchLTE() {
+  fetchData("/api/v1/books?year[lte]=2000", "booksYearLTEResult");
+}
+
+function fetchBooksSortedByTitle() {
+  fetchData("/api/v1/books?sort=title", "booksSortedByTitleResult");
+}
+
+function fetchBooksWithSelectedFields() {
+  fetchData(
+    "/api/v1/books?fields=title,author,year",
+    "booksSelectedFieldsResult",
   );
 }
 
-async function fetchBooksByYear() {
-  const res = await fetch("/api/v1/books?year=1960");
-  const data = await res.json();
-  document.getElementById("booksByYearResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
+function fetchPaginatedBooks() {
+  fetchData("/api/v1/books?page=1&limit=4", "paginatedBooksResult");
 }
 
-async function fetchBooksSortedByTitle() {
-  const res = await fetch("/api/v1/books?sort=title");
-  const data = await res.json();
-  document.getElementById("booksSortedByTitleResult").textContent =
-    JSON.stringify(data, null, 2);
-}
+/* =========================
+   POST REQUEST
+========================= */
 
-async function fetchBooksWithSelectedFields() {
-  const res = await fetch("/api/v1/books?fields=title,author,year");
-  const data = await res.json();
-  document.getElementById("booksSelectedFieldsResult").textContent =
-    JSON.stringify(data, null, 2);
-}
-
-async function fetchPaginatedBooks() {
-  const res = await fetch("/api/v1/books?page=1&limit=2");
-  const data = await res.json();
-  document.getElementById("paginatedBooksResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
-}
-
-async function createBook() {
+function createBook() {
   const body = JSON.parse(document.getElementById("postBookBody").value);
-  const res = await fetch("/api/v1/books", {
+
+  fetchData("/api/v1/books", "postBookResult", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  const data = await res.json();
-  document.getElementById("postBookResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
 }
 
-async function getBook() {
+/* =========================
+   SINGLE BOOK
+========================= */
+
+function getBook() {
   const id = document.getElementById("getBookId").value;
-  const res = await fetch(`/api/v1/books/${id}`);
-  const data = await res.json();
-  document.getElementById("getBookResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
+
+  fetchData(`/api/v1/books/${id}`, "getBookResult");
 }
 
-async function updateBook() {
+/* =========================
+   UPDATE BOOK
+========================= */
+
+function updateBook() {
   const id = document.getElementById("updateBookId").value;
   const body = JSON.parse(document.getElementById("updateBookBody").value);
-  const res = await fetch(`/api/v1/books/${id}`, {
+
+  fetchData(`/api/v1/books/${id}`, "updateBookResult", {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  const data = await res.json();
-  document.getElementById("updateBookResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
 }
 
-async function deleteBook() {
+/* =========================
+   DELETE BOOK
+========================= */
+
+function deleteBook() {
   const id = document.getElementById("deleteBookId").value;
-  const res = await fetch(`/api/v1/books/${id}`, { method: "DELETE" });
-  const data = await res.json();
-  document.getElementById("deleteBookResult").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
+
+  fetchData(`/api/v1/books/${id}`, "deleteBookResult", {
+    method: "DELETE",
+  });
 }

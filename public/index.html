@@ -21,6 +21,7 @@
         <pre id="getBooksResult">Response will appear here...</pre>
       </section>
 
+      <!-- FILTER -->
       <section class="endpoint get">
         <h2>GET /api/v1/books?year=1960</h2>
         <p>Filters books by a specific publication year</p>
@@ -28,6 +29,47 @@
         <pre id="booksByYearResult">Response will appear here...</pre>
       </section>
 
+      <!-- IN -->
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?year[in]=1960,2003</h2>
+        <p>Filters books that match specific years (IN operator)</p>
+        <button onclick="fetchIn()">Try it</button>
+        <pre id="booksYearInResult">Response will appear here...</pre>
+      </section>
+
+      <!-- GT -->
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?year[gt]=1950</h2>
+        <p>Filters books greater than a specific year</p>
+        <button onclick="fetchGT()">Try it</button>
+        <pre id="booksYearGTResult">Response will appear here...</pre>
+      </section>
+
+      <!-- GTE -->
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?year[gte]=2000</h2>
+        <p>Filters books greater than or equal to a year</p>
+        <button onclick="fetchGTE()">Try it</button>
+        <pre id="booksYearGTEResult">Response will appear here...</pre>
+      </section>
+
+      <!-- LT -->
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?year[lt]=1900</h2>
+        <p>Filters books less than a specific year</p>
+        <button onclick="fetchLT()">Try it</button>
+        <pre id="booksYearLTResult">Response will appear here...</pre>
+      </section>
+
+      <!-- LTE -->
+      <section class="endpoint get">
+        <h2>GET /api/v1/books?year[lte]=2000</h2>
+        <p>Filters books less than or equal to a year</p>
+        <button onclick="fetchLTE()">Try it</button>
+        <pre id="booksYearLTEResult">Response will appear here...</pre>
+      </section>
+
+      <!-- SORT -->
       <section class="endpoint get">
         <h2>GET /api/v1/books?sort=title</h2>
         <p>Sorts books in ascending order by title</p>
@@ -35,6 +77,7 @@
         <pre id="booksSortedByTitleResult">Response will appear here...</pre>
       </section>
 
+      <!-- FIELDS -->
       <section class="endpoint get">
         <h2>GET /api/v1/books?fields="title,author,year'</h2>
         <p>
@@ -44,8 +87,9 @@
         <pre id="booksSelectedFieldsResult">Response will appear here...</pre>
       </section>
 
+      <!-- PAGINATION -->
       <section class="endpoint get">
-        <h2>GET /api/v1/books?page=1&limit=2</h2>
+        <h2>GET /api/v1/books?page=1&limit=4</h2>
         <p>Paginates results by specifying page number and limit per page</p>
         <button onclick="fetchPaginatedBooks()">Try it</button>
         <pre id="paginatedBooksResult">Response will appear here...</pre>
