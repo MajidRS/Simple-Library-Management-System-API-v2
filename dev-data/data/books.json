@@ -1,0 +1,86 @@
+[
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "year": 1960,
+    "available": true
+  },
+  {
+    "title": "Advise and Consent",
+    "author": "Allen Drury",
+    "genre": "Political Fiction",
+    "year": 1960,
+    "available": true
+  },
+  {
+    "title": "Rabbit, Run",
+    "author": "John Updike",
+    "genre": "Fiction",
+    "year": 1960,
+    "available": false
+  },
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Dystopian",
+    "year": 1949,
+    "available": false
+  },
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic",
+    "year": 1925,
+    "available": true
+  },
+  {
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "year": 1937,
+    "available": true
+  },
+  {
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "genre": "Science Fiction",
+    "year": 1932,
+    "available": false
+  },
+  {
+    "title": "Moby Dick",
+    "author": "Herman Melville",
+    "genre": "Adventure",
+    "year": 1851,
+    "available": true
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Romance",
+    "year": 1813,
+    "available": true
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Fiction",
+    "year": 1951,
+    "available": false
+  },
+  {
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "genre": "Philosophical",
+    "year": 1988,
+    "available": true
+  },
+  {
+    "title": "The Da Vinci Code",
+    "author": "Dan Brown",
+    "genre": "Thriller",
+    "year": 2003,
+    "available": true
+  }
+]
