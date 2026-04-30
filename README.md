@@ -1,4 +1,4 @@
-# 📚 Books API
+# 📚 Simple-Library-Management-System-API-v2
 
 A RESTful API for managing a books collection, built with **Node.js**, **Express**, and **MongoDB**. Includes advanced querying features and an interactive documentation UI served as a static frontend.
 
