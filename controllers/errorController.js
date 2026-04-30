@@ -4,6 +4,14 @@ const handleCastErrorDB = (err, res) => {
   return new AppError(`Invalid ${err.path}: ${err.value}`, 400);
 };
 
+const handleDuplicateKeyErrorDB = (err, res) => {
+  const fieldName = err.errorResponse.errmsg.match(/"([^"]*)"/g)[0];
+  return new AppError(
+    `Duplicate field value ${fieldName}. Please use another value`,
+    400,
+  );
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -36,6 +44,7 @@ const globalErrorsHandler = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     let error = err;
     if (err.name === "CastError") error = handleCastErrorDB(err);
+    if (err.code === 11000) error = handleDuplicateKeyErrorDB(err);
     sendErrorProd(error, res);
   }
 };
